@@ -39,15 +39,16 @@ echo Number of services with errors:$count_err >> ./$report
 echo System User Name:$LOGNAME >> ./$report
 echo Date of:`date +%D` >> ./$report
 
-
 [ -d "./archives" ] || mkdir archives
 tar cvf archives/$archive $failed $running $report
 
 rm ./$failed $running $report test.txt
 
 #Checking the archive
-if tar tvf ./$archive/*.tar 2>/dev/null; then
-    echo "Archive is corrupted!";
+tar tvf ./archives/$archive 1>/dev/null
+
+if echo $?==0 1>/dev/null; then
+    echo "Archive is good!";
 else
-    echo "Archive is good";
+    echo "Archive is corrupted";
 fi
